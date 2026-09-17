@@ -7,8 +7,12 @@ export default defineConfig({
   workers: 1,
 
   use: {
-    executablePath: `${process.env.TEMP}\\chrome-win64\\chrome-win64\\chrome.exe`,
-    headless: false,
+    // Only use the custom local Chrome install when running locally (not in CI).
+    // process.env.CI is automatically set to 'true' by GitHub Actions.
+    ...(!process.env.CI && {
+      executablePath: `${process.env.TEMP}\\chrome-win64\\chrome-win64\\chrome.exe`,
+    }),
+    headless: !!process.env.CI,
     navigationTimeout: 60000,
     actionTimeout: 30000,
   },
