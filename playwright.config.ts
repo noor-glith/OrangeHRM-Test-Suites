@@ -8,11 +8,11 @@ export default defineConfig({
 
   use: {
     // Only use the custom local Chrome install when running locally (not in CI).
-    // process.env.CI is automatically set to 'true' by GitHub Actions.
+    // GitHub Actions runners are headless Linux machines and do not provide an X server.
     ...(!process.env.CI && {
       executablePath: `${process.env.TEMP}\\chrome-win64\\chrome-win64\\chrome.exe`,
     }),
-    headless: !!process.env.CI,
+    headless: true,
     navigationTimeout: 60000,
     actionTimeout: 30000,
   },
